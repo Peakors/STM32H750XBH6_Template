@@ -19,11 +19,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usart.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "retarget.h"   //重定向printf
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -86,6 +88,7 @@ int main(void) {
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
     MX_USART1_UART_Init();
+    MX_USB_DEVICE_Init();
     /* USER CODE BEGIN 2 */
     RetargetInit(&huart1);  //重定向printf
 
@@ -94,6 +97,10 @@ int main(void) {
 //    scanf("%s", buf);
 //    printf("\r\nHello, %s!\r\n", buf);
 //    printf("串口重定向测试完毕\r\n");
+
+    float f_var = 15.963F;
+    int i_var = 185;
+
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -103,14 +110,21 @@ int main(void) {
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+//        HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+//        HAL_Delay(500);
+//        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+//        HAL_Delay(500);
+//        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+//        HAL_Delay(500);
+//        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+//        HAL_Delay(500);
+        f_var += 0.5F;
+        i_var += 1;
+
+        usb_printf("USB Printf Test! Float:%f, Integer:%d\r\n", f_var, i_var);
         HAL_Delay(500);
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-        HAL_Delay(500);
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-        HAL_Delay(500);
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-        HAL_Delay(500);
+
+
     }
     /* USER CODE END 3 */
 }
@@ -141,8 +155,9 @@ void SystemClock_Config(void) {
     /** Initializes the RCC Oscillators according to the specified parameters
     * in the RCC_OscInitTypeDef structure.
     */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48 | RCC_OSCILLATORTYPE_HSE;
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLM = 5;

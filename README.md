@@ -10,3 +10,4 @@
 
 - 添加printf和scanf重定向到串口1，具体代码参考`retarget.c`和`retarget.h`.
 - ![UART-Retarget](pic/UART-Retarget.png)
+- 添加USB虚拟串口，具体实现见：blog.csdn.net/weixin_51002159/article/details/126644375

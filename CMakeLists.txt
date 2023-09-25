@@ -1,7 +1,7 @@
 #THIS FILE IS AUTO GENERATED FROM THE TEMPLATE! DO NOT CHANGE!
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.26)
 
 # specify cross-compilers and tools
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -59,11 +59,19 @@ include_directories(
     Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/CMSIS/Include
+
+    Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
+    Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src
+    Middlewares/ST/STM32_USB_Device_Library/Core/Inc
+    Middlewares/ST/STM32_USB_Device_Library/Core/Src
+    USB_DEVICE/App
+    USB_DEVICE/Target
+
 )
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H750xx)
 
-file(GLOB_RECURSE SOURCES "BSP/*.*" "Library/*.*" "Core/*.*" "Drivers/*.*")
+file(GLOB_RECURSE SOURCES "BSP/*.*" "Library/*.*" "Core/*.*" "Drivers/*.*" "Middlewares/*.*" "USB_DEVICE/*.*")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H750XBHX_FLASH.ld)
 
