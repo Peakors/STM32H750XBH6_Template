@@ -12,21 +12,21 @@ USB 虚拟串口，简称 VCP，是 Virtual COM Port 的简写，它是利用 US
 
 ### Connectivity -> USB_OTG_FS -> Mode: Device_Only
 
-![image-20250806192004306](Pictures\image-20250806192004306.png)
+![image-20250806192004306](./Pictures/image-20250806192004306.png)
 
 ### Middleware -> USB_DEVICE -> Class For FS IP: Communication Device Class (Virtual Port Com)
 
-![image-20250806192243922](Pictures\image-20250806192243922.png)
+![image-20250806192243922](./Pictures/image-20250806192243922.png)
 
 ### Clock Configuration -> USB Clock Mux -> 48MHz
 
-![image-20250806192414615](D:\clion_stm32\STM32H750XBH6_Template\Docs\Pictures\image-20250806192414615.png)
+![image-20250806192414615](./Pictures/image-20250806192414615.png)
 
 ## 编写程序
 
 CubeMX会自动生成如下文件
 
-![image-20250806192603174](Pictures\image-20250806192603174.png)
+![image-20250806192603174](./Pictures/image-20250806192603174.png)
 
 `main.c` 中包含头文件
 
