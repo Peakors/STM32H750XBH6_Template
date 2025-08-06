@@ -1,5 +1,8 @@
 # STM32H750XBH6 Template
 
+旧版本存档！！（20250806）
+
+
 基于反客STM32H750XBH6核心板(FK750M5-XBH6-SDRAM)的CLion + CubeMX + CMake + OpenOCD的外部Flash下载算法模板
 
 感谢群友`子衿`、`JasonGu`的帮助，站在了巨人的肩膀上完成了该项目模板
