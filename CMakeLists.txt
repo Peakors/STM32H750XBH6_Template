@@ -24,6 +24,8 @@ set(CMAKE_PROJECT_NAME STM32H750XBH6_Template)
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
+# set(COMMON_FLAGS "-specs=nosys.specs -specs=nano.specs -u _printf_float -u _scanf_float")
+
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
@@ -34,8 +36,23 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
+#  在构建后，将ELF文件转换为BIN和HEX格式
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.bin
+        COMMENT "Generate bin file -> ${CMAKE_PROJECT_NAME}.bin"
+)
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.hex
+        COMMENT "Generate hex file -> ${CMAKE_PROJECT_NAME}.hex"
+)
+
+
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
+
+# Add User Library
+add_subdirectory(Library)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -65,4 +82,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
 
     # Add user defined libraries
+        user_library
 )
+
+
