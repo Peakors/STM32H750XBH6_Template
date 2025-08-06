@@ -34,8 +34,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39cf2171-3049-442c-aa40-071a1140a39a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Docs/重定向printf到USART1.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.config/FK750M5-XBH6-SDRAM_External_Flash-DAPLINK.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.config/FK750M5-XBH6-SDRAM_External_Flash_Download_Algorithm.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/.config/FK750M5-XBH6_External_Flash_Download_Algorithm.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.config/Internal_Download_Algorithm.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/.config/FK750M5-XBH6_Internal_Flash_Download_Algorithm.cfg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Picture/PixPin_2025-08-06_13-25-01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Inc/retarget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Inc/retarget.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +122,7 @@
       <workItem from="1754457888937" duration="4965000" />
       <workItem from="1754464324115" duration="333000" />
       <workItem from="1754465169511" duration="110000" />
-      <workItem from="1754476594991" duration="1908000" />
+      <workItem from="1754476594991" duration="5778000" />
     </task>
     <servers />
   </component>

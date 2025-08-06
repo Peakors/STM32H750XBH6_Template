@@ -114,7 +114,7 @@ int main(void) {
         CDC_Transmit_FS(buff, sizeof(buff));
         usb_printf("%.5f\r\n", user_time);
         usb_printf("%s\r\n", buff);
-        
+
 
         
         printf("test\r\n");

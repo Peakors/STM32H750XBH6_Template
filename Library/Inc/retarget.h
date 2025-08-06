@@ -1,5 +1,5 @@
-#ifndef STM32H750XBH6_TEMPLATE_RETARGET_H
-#define STM32H750XBH6_TEMPLATE_RETARGET_H
+#ifndef _RETARGET_H__
+#define _RETARGET_H__
 
 #include "stm32h7xx_hal.h"
 #include <sys/stat.h>
@@ -19,4 +19,4 @@ int _read(int fd, char *ptr, int len);
 
 int _fstat(int fd, struct stat *st);
 
-#endif //STM32H750XBH6_TEMPLATE_RETARGET_H
+#endif //_RETARGET_H__
