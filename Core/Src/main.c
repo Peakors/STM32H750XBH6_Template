@@ -113,6 +113,8 @@ int main(void) {
         //USB虚拟串口打印测试
         CDC_Transmit_FS(buff, sizeof(buff));
         usb_printf("%.5f\r\n", user_time);
+        usb_printf("%s\r\n", buff);
+        
 
         
         printf("test\r\n");
