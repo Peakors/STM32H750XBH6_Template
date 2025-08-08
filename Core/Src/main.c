@@ -24,8 +24,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "retarget.h"   //重定向printf
-#include "usbd_cdc_if.h" //USB虚拟串口
+#include "retarget.h"           //重定向printf
+#include "usbd_cdc_if.h"        //USB虚拟串口
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
