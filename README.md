@@ -2,6 +2,8 @@
 
 基于反客STM32H750XBH6核心板(FK750M5-XBH6)的CLion + CubeMX + CMake + OpenOCD的外部Flash下载算法模板
 
+**若使用当前模板的外部flash下载算法，需要与原理图中QSPI引脚完全相同，否则无法使用。**
+
 联系方式：Peakors@163.com
 
 工程版本：
@@ -18,7 +20,9 @@
 - 添加USB虚拟串口，感谢群友`琴梨project`
 - 添加项目名称修改Python脚本，详见`RenameProject.py`
 
+硬件原理图：
 
+- 见Hardware目录下
 
 感谢：
 
@@ -28,6 +32,12 @@
 - https://github.com/WangHunZi/EmbeddedProjectTemplates
 
 
+
+
+
+开发板购买店铺：https://shop212360197.taobao.com
+
+本项目测试板子：https://item.taobao.com/item.htm?id=682521953131
 
 
 
