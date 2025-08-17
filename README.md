@@ -31,7 +31,7 @@
 - https://zhuanlan.zhihu.com/p/145801160
 - https://github.com/WangHunZi/EmbeddedProjectTemplates
 
-
+**pyOCD**版本：https://github.com/haoruanwn/STM32H750XBH6_CMake_Template
 
 
 
