@@ -54,7 +54,7 @@
 
 我们在工程根目录创建一个配置文件Download.cfg，文件内容如下：
 
-```C
+```shell
 source [find interface/stlink.cfg]
 transport select swd
 source [find target/stm32f1x.cfg]
@@ -63,7 +63,7 @@ adapter speed 10000
 
 如果使用Dap-Link：
 
-```c
+```shell
 adapter driver cmsis-dap
 transport select swd
 source [find target/stm32f1x.cfg]
@@ -110,7 +110,7 @@ Target选择`STM32F103RCT6__Template`， Executable binary选择`STM32F103RCT6__
 
 填入下列数据
 
-```
+```shell
 Name: Debug
 Executable binary: STM32F103RCT6__Template
 'target remote' args: localhost:3333

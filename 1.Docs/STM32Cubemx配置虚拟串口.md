@@ -32,7 +32,7 @@ CubeMX会自动生成如下文件
 
 ```c
 /* USER CODE BEGIN Includes */
-#include "usbd_cdc_if.h" 			//USB虚拟串口
+#include "usbd_cdc_if.h"             //USB虚拟串口
 /* USER CODE END Includes */
 ```
 
@@ -91,6 +91,16 @@ void usb_printf(const char *format, ...)
 ...
 ```
 
+在`usbd_cdc_if.h`中添加
+
+```c
+/* USER CODE BEGIN EXPORTED_FUNCTIONS */
+void usb_printf(const char *format, ...);
+/* USER CODE END EXPORTED_FUNCTIONS */
+```
+
+
+
 编写测试代码
 
 ```c
@@ -114,4 +124,3 @@ while (1)
 /* USER CODE END 3 */
 ...
 ```
-

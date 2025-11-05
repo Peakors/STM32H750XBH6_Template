@@ -6,7 +6,7 @@
 
 ![image-20250806214128503](Pictures/image-20250806214128503.png)
 
-在顶层`CMakeLists.txt`中添加如下代码：
+在`Library\CMakeLists.txt`中添加如下代码：
 
 ```cmake
 # Add User Library

@@ -33,17 +33,6 @@
 
 **pyOCD**版本：https://github.com/haoruanwn/STM32H750XBH6_CMake_Template
 
-
-
 开发板购买店铺：https://shop212360197.taobao.com
 
 本项目测试板子：https://item.taobao.com/item.htm?id=682521953131
-
-
-
-
-
-
-
-
-
