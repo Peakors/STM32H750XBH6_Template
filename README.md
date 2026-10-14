@@ -18,7 +18,7 @@
 
 - 添加printf和scanf重定向到串口1，具体代码参考`retarget.c`和`retarget.h`.
 - 添加USB虚拟串口，感谢群友`琴梨project`
-- 添加项目名称修改Python脚本，详见`RenameProject.py`
+- 添加QSPI Bootloader引导程序，详见`2.Software/STM32H750XBH6_Bootloader`
 
 硬件原理图：
 
