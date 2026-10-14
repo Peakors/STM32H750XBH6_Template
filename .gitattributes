@@ -1,0 +1,58 @@
+# =====================================================================
+# Git 属性约定：换行符与文件类型
+#
+# 背景：本仓库开发机 core.autocrlf=true，导致每次 git add 都提示
+#       "LF will be replaced by CRLF"。此处统一约定：
+#       仓库内与工作区一律使用 LF 存储文本文件，消除该警告。
+#       注意：本文件的属性优先于 core.autocrlf 配置。
+# =====================================================================
+
+# 默认规则：自动识别文本文件，仓库与工作区统一 LF
+* text=auto eol=lf
+
+# ===== 二进制文件：禁止换行符转换与文本 diff =====
+*.a        binary
+*.lib      binary
+*.o        binary
+*.elf      binary
+*.bin      binary
+*.axf      binary
+*.su       binary
+*.pdf      binary
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+# 固件产物按文本内容处理，但不做换行符转换
+*.hex      -text
+
+# ===== 强制按文本处理 =====
+# cmake/stm32cubemx/CMakeLists.txt 含 1 个孤立 CR，会被 Git 误判为二进制，
+# 导致 git diff 无法显示内容差异，故显式声明为文本。
+CMakeLists.txt  text
+*.cmake         text
+*.txt           text
+*.ioc           text
+*.mxproject     text
+*.svd           text
+*.md            text
+*.c             text
+*.h             text
+*.s             text
+*.ld            text
+*.icf           text
+
+# ===== 必须保持 CRLF 的 Windows 专用文件 =====
+# 当前仓库中不存在这些文件，此段为后续引入 Keil / IAR / 批处理脚本预留。
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+*.ps1       text eol=crlf
+*.sln       text eol=crlf
+*.vcxproj   text eol=crlf
+*.uvprojx   text eol=crlf
+*.uvoptx    text eol=crlf
+*.ewp       text eol=crlf
+*.eww       text eol=crlf
+
+# ===== git archive 导出时排除仓库自身管理文件 =====
+/.gitignore      export-ignore
+/.gitattributes  export-ignore
