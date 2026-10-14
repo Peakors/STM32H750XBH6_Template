@@ -1,4 +1,44 @@
-# Project exclude paths
+# =====================================================================
+# 本文件规则说明：只忽略「本地生成 / 个人环境」内容，
+# 工程源文件（.ioc、.mxproject 之外）、1.Docs、3.Hardware 一律入库。
+# =====================================================================
+
+# ===== 构建输出目录 =====
 /build/
-2.Software/STM32H750XBH6_APP/build
-2.Software/STM32H750XBH6_Bootloader/build
+build/
+cmake-build-*/
+out/
+
+# ===== 编译中间文件与产物 =====
+# 注意：不要加 *.a —— Drivers/CMSIS/DSP/Lib 下的预编译库需要入库
+*.o
+*.obj
+*.d
+*.elf
+*.hex
+*.bin
+*.map
+*.su
+*.lst
+*.axf
+
+# ===== CMake / CLion 本地生成文件 =====
+CMakeUserPresets.json
+compile_commands.json
+.cache/
+.clangd/
+
+# ===== IDE 个人配置 =====
+.idea/
+.vscode/
+*.iml
+.settings/
+
+# ===== 操作系统与编辑器临时文件 =====
+Thumbs.db
+desktop.ini
+.DS_Store
+*~
+*.swp
+*.bak
+*.log
