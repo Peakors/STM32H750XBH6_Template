@@ -36,3 +36,11 @@
 开发板购买店铺：https://shop212360197.taobao.com
 
 本项目测试板子：https://item.taobao.com/item.htm?id=682521953131
+
+许可证：
+
+- 本项目自有代码采用 **GPL-2.0-or-later**（GNU General Public License v2.0 或任何更新的版本）发布，协议全文见 [LICENSE](LICENSE)。
+- Copyright (C) 2025 Peakors
+- 第三方代码保留其原始许可，不因本项目而改变：
+  - `2.Software/*/Drivers/CMSIS`（Arm CMSIS）：Apache-2.0
+  - `2.Software/*/Drivers/STM32H7xx_HAL_Driver`、`2.Software/*/Middlewares/ST/STM32_USB_Device_Library`（STMicroelectronics）：随 STM32 器件提供的原厂许可，按 AS-IS 提供
