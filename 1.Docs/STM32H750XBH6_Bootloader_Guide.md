@@ -4,7 +4,7 @@
 
 | 项目 | 内容 |
 |---|---|
-| 文档版本 | v1.0 |
+| 文档版本 | v1.1 |
 | 目标读者 | 完全不了解 bootloader 的嵌入式初学者；会基本 C 语言、用过 CubeMX 即可 |
 | 文档目标 | 照本文档操作，可以从零复刻出整个可工作的引导程序 |
 | 硬件平台 | STM32H750XBH6（TFBGA240）+ W25Q64 QSPI Flash 核心板 |
@@ -119,8 +119,10 @@ STM32H750 这颗芯片有一个"先天缺陷"：它标称 128KB Flash，而这�
 ├── Library/       ← printf 重定向库（手写）
 ├── Drivers/       ← ST 官方 HAL 库 + CMSIS（CubeMX 拷贝进来，不要改）
 ├── cmake/         ← CubeMX 生成的构建脚本
-└── docs/          ← 本文档
+└── build/         ← 构建输出目录（.gitignore 已忽略，不入库）
 ```
+
+> 💡 本文档及仓库其余文档统一放在**仓库根目录的 `1.Docs/`** 下，不在 `<工程根>` 内。
 
 完整的带说明文件树见 [附录 A](#附录-a-文件清单与关键行号)。
 
@@ -3005,7 +3007,7 @@ set(TOOLCHAIN_LINK_LIBRARIES "m")             # 链接 libm（数学库）
    │              STM32H750XBH6_Bootloader  (可执行)                 │
    │  源文件：Core/Src/*.c + startup_stm32h750xx.s                   │
    │  链接：  -lm  BSP/libbsp.a  Library/libuser_library.a           │
-   │  产物：  .elf / .map                                            │
+   │  产物：  .elf / .map / .bin / .hex
    └────────────────────────────────────────────────────────────────┘
 ```
 
@@ -3106,6 +3108,8 @@ cmake --build build\Debug
 | 文件 | 说明 |
 |---|---|
 | `STM32H750XBH6_Bootloader.elf` | **主产物**，含调试信息，可直接用于烧写和调试 |
+| `STM32H750XBH6_Bootloader.bin` | 纯二进制镜像（无地址信息），由 POST_BUILD 步骤自动生成 |
+| `STM32H750XBH6_Bootloader.hex` | Intel HEX 镜像（含地址信息），由 POST_BUILD 步骤自动生成 |
 | `STM32H750XBH6_Bootloader.map` | 链接映射表，记录了每个函数/变量放在哪个地址、占多少字节 |
 | `CMakeFiles/**/*.o` `*.su` | 中间目标文件、栈用量报告 |
 | `compile_commands.json` | 编译数据库，给 IDE 做代码索引 |
@@ -3141,28 +3145,26 @@ Memory region         Used Size  Region Size  %age Used
 
 见 [8.10](#810-构建产物与内存占用)。开始烧写前，先确认你手上有一个刚构建出来的 `STM32H750XBH6_Bootloader.elf`。
 
-## 9.2 （可选）生成 .hex / .bin
+## 9.2 生成 .hex / .bin
 
-CubeMX 生成的 CMake 工程**默认只产出 `.elf`**。`.elf` 可以直接被 STM32CubeProgrammer 烧写（它能解析 ELF 格式），所以**不生成 hex/bin 也能用**。
-
-如果你习惯用 `.hex` 或 `.bin`（例如某些烧写工具只认 bin），可以在**顶层 `CMakeLists.txt` 末尾**追加：
+CubeMX 生成的 CMake 工程**默认只产出 `.elf`**。`.elf` 可以直接被 STM32CubeProgrammer 烧写（它能解析 ELF 格式）；为了兼容只认 hex/bin 的烧写工具，**本工程已在顶层 `CMakeLists.txt` 的 `add_executable()` 之后添加了两个 `POST_BUILD` 步骤**（与 APP 工程写法一致），构建完成时自动用 `objcopy` 生成 `.bin` 和 `.hex`：
 
 ```cmake
-# ---- 生成 .hex 和 .bin（可选增强，CubeMX 不会覆盖顶层 CMakeLists.txt）----
+#  在构建后，将ELF文件转换为BIN和HEX格式
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O ihex
-            $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
-            $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/${CMAKE_PROJECT_NAME}.hex
-    COMMAND ${CMAKE_OBJCOPY} -O binary
-            $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
-            $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/${CMAKE_PROJECT_NAME}.bin
-    COMMENT "Generating .hex and .bin"
+        COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.bin
+        COMMENT "Generate bin file -> ${CMAKE_PROJECT_NAME}.bin"
+)
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.hex
+        COMMENT "Generate hex file -> ${CMAKE_PROJECT_NAME}.hex"
 )
 ```
 
-`CMAKE_OBJCOPY` 已经在工具链文件里被设成 `arm-none-eabi-objcopy`，不用自己填路径。
+`CMAKE_OBJCOPY` 已经在工具链文件里被设成 `arm-none-eabi-objcopy`，不用自己填路径。`.bin` / `.hex` 与 `.elf` 一起输出在 `build/Debug/`（或 `build/Release/`）下。
 
-> 🚧 **未验证**：本工程**没有**加这段（默认只有 .elf）。上面是标准做法，加之前建议先确认你的烧写工具是否真的需要 hex/bin。
+✅ **已验证**：Debug 构建 `.bin` 为 30824 B，与链接器报告的 FLASH 占用一致；`.hex` 首条扩展地址记录为 `:020000040800F2`，即基址 `0x08000000`。
 
 > ⚠️ **`.bin` 没有地址信息**。烧 `.bin` 时必须手动指定起始地址 `0x08000000`，否则烧到错误位置。
 
@@ -3946,6 +3948,7 @@ board=custom
 | 版本 | 日期 | 修订内容 |
 |---|---|---|
 | v1.0 | — | 初版：完整覆盖从环境准备到烧写验证的全流程，含 MPU 区域 1、QSPI 引脚速度等重点配置的详细说明 |
+| v1.1 | 2026-10-15 | 与工程现状同步：§9.2 改为工程已内置 bin/hex 生成（POST_BUILD）并补充实测结果；§8.10 产物表与 §8 构建图补 .bin/.hex；§0.3 目录树修正文档位置说明（仓库 `1.Docs/`） |
 
 ## E.3 构建产物记录
 
