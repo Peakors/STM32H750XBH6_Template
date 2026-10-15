@@ -44,7 +44,7 @@ cd 2.Software/STM32H750XBH6_APP
 cmake --preset Debug        # 或 Release
 cmake --build --preset Debug
 
-# 产物位于 build/Debug/：*.elf（Bootloader）、*.bin / *.hex（APP）
+# 产物位于 build/Debug/：*.elf / *.bin / *.hex（两个工程均生成）
 ```
 
 ### 烧写与运行

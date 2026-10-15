@@ -34,6 +34,17 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
+#  在构建后，将ELF文件转换为BIN和HEX格式
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.bin
+        COMMENT "Generate bin file -> ${CMAKE_PROJECT_NAME}.bin"
+)
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.hex
+        COMMENT "Generate hex file -> ${CMAKE_PROJECT_NAME}.hex"
+)
+
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
