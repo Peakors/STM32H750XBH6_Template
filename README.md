@@ -28,6 +28,8 @@ STM32H750XBH6_Bootloader_APP_Template/
 
 ## 快速开始
 
+> 💡 只想先验证模板能不能用？无需安装编译环境，直接看 [快速上手与验证](1.Docs/快速上手与验证.md)（OpenOCD + 调试器，5 分钟）。
+
 ### 环境要求
 
 - **STM32CubeCLT**（提供 arm-none-eabi-gcc、CMake、Ninja，并加入 PATH）——版本见下方「工程版本」
@@ -90,6 +92,7 @@ openocd -f 4.Release/OpenOCD/FK750M5-XBH6_External_Flash_Download_Algorithm.cfg 
 
 | 文档 | 内容 |
 |---|---|
+| [快速上手与验证.md](1.Docs/快速上手与验证.md) | 克隆仓库后 5 分钟快速验证模板可用（无需编译，实测通过） |
 | [STM32H750XBH6_Bootloader_Guide.md](1.Docs/STM32H750XBH6_Bootloader_Guide.md) | Bootloader 从零复刻指南（原理、CubeMX 配置、代码实现、烧写验证） |
 | [配置CLion用于STM32开发（OpenOCD下载）.md](1.Docs/配置CLion用于STM32开发（OpenOCD下载）.md) | CLion + OpenOCD 开发环境搭建 |
 | [STM32Cubemx配置虚拟串口.md](1.Docs/STM32Cubemx配置虚拟串口.md) | CubeMX 中配置 USB 虚拟串口 |
