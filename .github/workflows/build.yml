@@ -1,0 +1,54 @@
+# 双工程固件自动构建
+# 触发：push / PR 到主分支，或手动触发（workflow_dispatch）
+# 说明：CI 使用 Ubuntu 仓库版 arm-none-eabi-gcc，与本机 CubeCLT 自带的 GCC
+#       版本可能不同，但均使用同一份 CMake 工程与工具链文件构建。
+
+name: Build Firmware
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.project }} (${{ matrix.preset }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [STM32H750XBH6_Bootloader, STM32H750XBH6_APP]
+        preset: [Debug, Release]
+
+    defaults:
+      run:
+        working-directory: 2.Software/${{ matrix.project }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi cmake ninja-build
+
+      - name: Configure
+        run: cmake --preset ${{ matrix.preset }}
+
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }}
+
+      - name: Show firmware size
+        run: arm-none-eabi-size build/${{ matrix.preset }}/*.elf
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.project }}-${{ matrix.preset }}
+          path: |
+            2.Software/${{ matrix.project }}/build/${{ matrix.preset }}/*.elf
+            2.Software/${{ matrix.project }}/build/${{ matrix.preset }}/*.bin
+            2.Software/${{ matrix.project }}/build/${{ matrix.preset }}/*.hex
