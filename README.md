@@ -64,6 +64,8 @@ openocd -f 4.Release/OpenOCD/FK750M5-XBH6_External_Flash_Download_Algorithm.cfg 
         -c "program 4.Release/APP/STM32H750XBH6_APP.hex verify reset exit"
 ```
 
+> 💡 烧写算法默认使用 **DAPLink** 调试器；使用 ST-Link / J-Link 时，修改 cfg 开头的调试器配置（注释掉 DAPLink 行，取消对应行的注释）。`4.Release/OpenOCD/` 下另提供四线通用算法 `FK750M5-XBH6_External_Flash_4Wire_Download_Algorithm.cfg`（自动识别 W25Q8~512 容量；CLion/GDB 下载时使用 QPI 4-4-4），与外部算法二选一使用。以上烧写命令对三份算法均已在 DAPLink + W25Q64 实测通过。
+
 **方式二：CLion 中一键下载** —— 两个工程分别配置 OpenOCD Download & Run，Board config file 选各自 `config/` 目录下的内部 / 外部 Flash 下载算法。
 
 **复位运行**：Bootloader 打印初始化信息后跳转 APP，串口 1（115200-8-N-1）与 USB 虚拟串口均输出打印。
