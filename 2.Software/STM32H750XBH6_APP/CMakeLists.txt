@@ -24,8 +24,6 @@ set(CMAKE_PROJECT_NAME STM32H750XBH6_APP)
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
-# set(COMMON_FLAGS "-specs=nosys.specs -specs=nano.specs -u _printf_float -u _scanf_float")
-
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
@@ -46,7 +44,6 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.hex
         COMMENT "Generate hex file -> ${CMAKE_PROJECT_NAME}.hex"
 )
-
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
@@ -84,5 +81,3 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     # Add user defined libraries
         user_library
 )
-
-

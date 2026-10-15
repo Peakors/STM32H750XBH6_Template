@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
+  * Copyright (c) 2026 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -24,8 +24,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "retarget.h"           //重定向printf
-#include "usbd_cdc_if.h"        //USB虚拟串口
+#include "retarget.h"   //重定向printf
+#include "usb_stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,13 +46,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-float user_time = 1.0F;
-uint8_t user_i = 0;
-unsigned char buff[20] = {"USB_CDC\r\n"};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+
+static void MPU_Config(void);
 
 /* USER CODE BEGIN PFP */
 
@@ -71,6 +71,9 @@ int main(void) {
     /* USER CODE BEGIN 1 */
 
     /* USER CODE END 1 */
+
+    /* MPU Configuration--------------------------------------------------------*/
+    MPU_Config();
 
     /* MCU Configuration--------------------------------------------------------*/
 
@@ -102,22 +105,8 @@ int main(void) {
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        user_time += 0.5F;
-        user_i += 1;
-        HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-
-        //串口打印测试
-        printf("%.5f\r\n", user_time);
-        printf("%d\r\n", user_i);
-
-        //USB虚拟串口打印测试
-        CDC_Transmit_FS(buff, sizeof(buff));
-        usb_printf("%.5f\r\n", user_time);
-        usb_printf("%s\r\n", buff);
-
-
-        
-        printf("test\r\n");
+        printf("\r\nHello!\r\n");
+        usb_printf("tick %lu\r\n", (unsigned long) HAL_GetTick());
         HAL_Delay(500);
     }
     /* USER CODE END 3 */
@@ -184,6 +173,33 @@ void SystemClock_Config(void) {
 
 /* USER CODE END 4 */
 
+/* MPU Configuration */
+
+void MPU_Config(void) {
+    MPU_Region_InitTypeDef MPU_InitStruct = {0};
+
+    /* Disables the MPU */
+    HAL_MPU_Disable();
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+    MPU_InitStruct.Number = MPU_REGION_NUMBER0;
+    MPU_InitStruct.BaseAddress = 0x0;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+    MPU_InitStruct.SubRegionDisable = 0x87;
+    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+    MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
+    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+    MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+    MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+    /* Enables the MPU */
+    HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+}
+
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None
@@ -204,11 +220,10 @@ void Error_Handler(void) {
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+void assert_failed(uint8_t *file, uint32_t line) {
+    /* USER CODE BEGIN 6 */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

@@ -89,33 +89,40 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
   return len;
 }
 
-// int _close(int file)
-// {
-//   (void)file;
-//   return -1;
-// }
+/*--------------------------------------------------------------------------------*/
+/* The 4 functions below (_close, _fstat, _isatty, _lseek) are already provided   */
+/* by Library/Src/retarget.c, which retargets printf() to the UART.               */
+/* Keeping both would cause "multiple definition" link errors, so they are        */
+/* commented out here. (_read and _write above are weak, so retarget.c wins.)     */
+/*--------------------------------------------------------------------------------*/
+#if 0
+int _close(int file)
+{
+  (void)file;
+  return -1;
+}
 
+int _fstat(int file, struct stat *st)
+{
+  (void)file;
+  st->st_mode = S_IFCHR;
+  return 0;
+}
 
-// int _fstat(int file, struct stat *st)
-// {
-//   (void)file;
-//   st->st_mode = S_IFCHR;
-//   return 0;
-// }
+int _isatty(int file)
+{
+  (void)file;
+  return 1;
+}
 
-// int _isatty(int file)
-// {
-//   (void)file;
-//   return 1;
-// }
-
-// int _lseek(int file, int ptr, int dir)
-// {
-//   (void)file;
-//   (void)ptr;
-//   (void)dir;
-//   return 0;
-// }
+int _lseek(int file, int ptr, int dir)
+{
+  (void)file;
+  (void)ptr;
+  (void)dir;
+  return 0;
+}
+#endif /* 0 */
 
 int _open(char *path, int flags, ...)
 {
