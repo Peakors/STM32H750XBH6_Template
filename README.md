@@ -16,6 +16,7 @@ STM32H750XBH6_Bootloader_APP_Template/
 │   ├── STM32H750XBH6_Bootloader/    # Bootloader：内部 Flash 引导程序
 │   └── STM32H750XBH6_APP/           # APP：用户程序模板（USART1 + USB 虚拟串口）
 ├── 3.Hardware/                      # 核心板原理图、W25Q64 数据手册
+├── 4.Release/                       # 预编译固件 hex + OpenOCD 烧写算法（开箱即用）
 ├── .github/workflows/               # CI：双工程自动构建
 └── AGENTS.md                        # 协作规范（提交 / 测试 / 文档）
 ```
@@ -49,9 +50,23 @@ cmake --build --preset Debug
 
 ### 烧写与运行
 
-1. **烧写 Bootloader**：使用 `2.Software/STM32H750XBH6_Bootloader` 工程，OpenOCD 配置选内部 Flash 下载算法；
-2. **烧写 APP**：使用 `2.Software/STM32H750XBH6_APP` 工程，OpenOCD 配置选 `config/FK750M5-XBH6_External_Flash_Download_Algorithm.cfg`（外部 Flash 下载算法，烧写到 QSPI Flash）；
-3. **复位运行**：Bootloader 打印初始化信息后跳转 APP，串口 1 与 USB 虚拟串口均输出打印。
+**方式一：直接使用预编译固件（无需编译）**
+
+`4.Release/` 提供了 Release 构建的固件 hex 与 OpenOCD 烧写算法（需已安装 OpenOCD 并连接 ST-Link）：
+
+```bash
+# 1. 烧写 Bootloader 到内部 Flash（0x08000000）
+openocd -f 4.Release/OpenOCD/FK750M5-XBH6_Internal_Flash_Download_Algorithm.cfg \
+        -c "program 4.Release/Bootloader/STM32H750XBH6_Bootloader.hex verify reset exit"
+
+# 2. 烧写 APP 到外部 QSPI Flash（0x90000000，外部 Flash 下载算法）
+openocd -f 4.Release/OpenOCD/FK750M5-XBH6_External_Flash_Download_Algorithm.cfg \
+        -c "program 4.Release/APP/STM32H750XBH6_APP.hex verify reset exit"
+```
+
+**方式二：CLion 中一键下载** —— 两个工程分别配置 OpenOCD Download & Run，Board config file 选各自 `config/` 目录下的内部 / 外部 Flash 下载算法。
+
+**复位运行**：Bootloader 打印初始化信息后跳转 APP，串口 1（115200-8-N-1）与 USB 虚拟串口均输出打印。
 
 完整流程（含 CubeMX 从零配置、MPU/时钟/QSPI 参数核对、烧写验证）详见 [STM32H750XBH6_Bootloader_Guide](1.Docs/STM32H750XBH6_Bootloader_Guide.md)。
 

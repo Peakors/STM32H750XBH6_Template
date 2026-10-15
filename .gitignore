@@ -22,6 +22,11 @@ out/
 *.lst
 *.axf
 
+# ===== 4.Release 发布目录例外 =====
+# 该目录存放预编译固件(hex)与 OpenOCD 烧写算法，属有意入库的发布物，
+# 不属于「本地生成」的构建产物。固件更新后需手动同步（见 AGENTS.md）。
+!4.Release/**
+
 # ===== CMake / CLion 本地生成文件 =====
 CMakeUserPresets.json
 compile_commands.json

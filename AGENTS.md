@@ -12,6 +12,7 @@
 | `2.Software/STM32H750XBH6_Bootloader/` | Bootloader，链接到内部 Flash `0x08000000`（128KB） |
 | `2.Software/STM32H750XBH6_APP/` | APP，链接到外部 QSPI Flash `0x90000000`（XIP） |
 | `3.Hardware/` | 原理图与数据手册（PDF，仅查阅，不修改） |
+| `4.Release/` | 发布目录：预编译固件 hex + OpenOCD 烧写算法（有意入库，.gitignore 显式例外） |
 
 ## 2. 构建与验证
 
@@ -25,6 +26,7 @@
   ```
 
 - 产物位于 `build/<preset>/`（`build/` 已被 .gitignore 忽略，严禁入库）；
+- **固件发布流程**：固件或烧写算法更新后，须将 Release 构建的 hex 同步到 `4.Release/Bootloader|APP/`、算法副本同步到 `4.Release/OpenOCD/`，并在同一提交中说明；`4.Release/` 是 .gitignore 的显式例外，仓库其余位置的构建产物仍禁止入库；
 - **任何代码改动交付前，两个工程的 Debug 与 Release 构建必须全部通过**；
 - 涉及链接脚本、启动文件、向量表的改动，还须用 `arm-none-eabi-objdump -h` / `readelf` 核对 `.isr_vector` 段地址、初始 MSP 与入口地址是否符合预期。
 
