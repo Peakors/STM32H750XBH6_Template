@@ -1,0 +1,26 @@
+# EditorConfig: https://editorconfig.org
+# 统一各编辑器/IDE 的基础格式约定，与 .gitattributes（LF 换行）配合使用
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C 源码：4 空格缩进（与 HAL/CubeMX 生成代码风格一致）
+[*.{c,h}]
+indent_style = space
+indent_size = 4
+
+# 构建脚本与配置
+[*.{cmake,txt,json,ld,ioc}]
+indent_style = space
+indent_size = 4
+
+# Markdown：2 空格缩进；保留行尾空格（Markdown 换行语法依赖）
+[*.md]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = false
