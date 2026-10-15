@@ -5,10 +5,10 @@
 软件环境：
 
 - Windows10
-- STM32CubeMX（Version：6.15.0）
-- STM32CubeCLT（Version：1.19.0）
+- STM32CubeMX（Version：6.18.1）
+- STM32CubeCLT（Version：1.22.0）
 - OpenOCD（Version：20250710）
-- CLion（2025.1）
+- CLion（2026.2.3.1）
 
 硬件环境：
 

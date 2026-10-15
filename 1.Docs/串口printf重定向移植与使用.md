@@ -12,7 +12,7 @@
 
 > 与 USB 虚拟串口的关系：本工程**两个打印通道并存** ——
 > `printf`/`scanf` 走 USART1（本文档），`usb_printf`/`usb_scanf` 走 USB
-> （见 `Docs/USB虚拟串口移植与使用.md`）。两套模块零冲突，详见
+> （见同目录 `USB虚拟串口移植与使用.md`）。两套模块零冲突，详见
 > [§6.8](#68-与-usb-虚拟串口模块并存)。
 
 ---
@@ -205,7 +205,7 @@ void RetargetInit(UART_HandleTypeDef *huart) {
    `target_link_libraries(... user_library)`；
 3. 重新 configure + build。
 
-完整文件内容照抄 `Docs/USB虚拟串口移植与使用.md` §4.3 / §4.4 即可。
+完整文件内容照抄 `USB虚拟串口移植与使用.md` §4.3 / §4.4 即可。
 
 ### ④ 编译验证
 

@@ -11,7 +11,7 @@ STM32 工程，以及移植后怎么使用。所有配置、代码片段、行�
   本工程 `main.c` 里 USART1 的 `printf` 与 USB 的 `usb_printf` 同时周期输出。
 
 > ⚠️ 与 printf/scanf 重定向（USART1）的关系：本工程**两个模块并存** ——
-> 标准 `printf`/`scanf` 走 USART1（见 `Docs/串口printf重定向移植与使用.md`），
+> 标准 `printf`/`scanf` 走 USART1（见同目录 `串口printf重定向移植与使用.md`），
 > `usb_printf`/`usb_scanf` 走 USB 虚拟串口。两者互不干扰，详见 [§6.5](#65-让标准-printfscanf-走-usb可选本工程现状说明)。
 
 ---
